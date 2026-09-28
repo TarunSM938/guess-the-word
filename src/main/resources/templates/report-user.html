@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>User report</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<main class="container">
+    <h1>User report</h1>
+    <form action="/admin/reports/user" method="get">
+        <label for="username">Username</label>
+        <input id="username" name="username" type="text" th:value="${username}">
+        <button type="submit">Show</button>
+    </form>
+
+    <p class="message" th:if="${error}" th:text="${error}"></p>
+
+    <section th:if="${submitted and !#lists.isEmpty(rows)}">
+        <h2 th:text="|Games for ${username}|">Games for user</h2>
+        <table>
+            <thead>
+            <tr>
+                <th scope="col">Date</th>
+                <th scope="col">Words tried</th>
+                <th scope="col">Correct guesses</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="row : ${rows}">
+                <td th:text="${row.date}">2026-01-01</td>
+                <td th:text="${row.wordsTried}">0</td>
+                <td th:text="${row.correctGuesses}">0</td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+    <p class="message" th:if="${submitted and #lists.isEmpty(rows) and error == null}">
+        This user has not played any games yet.
+    </p>
+
+    <p class="page-link"><a href="/admin/home">Back to admin home</a></p>
+</main>
+</body>
+</html>

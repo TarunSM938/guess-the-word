@@ -10,6 +10,8 @@
 <main class="container">
     <h1>Admin home</h1>
     <p>Administrator: <span th:text="${username}">admin</span></p>
+    <p><a href="/admin/reports/day">Daily report</a></p>
+    <p><a href="/admin/reports/user">User report</a></p>
     <form action="/logout" method="post">
         <button type="submit">Log out</button>
     </form>

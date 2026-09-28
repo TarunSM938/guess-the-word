@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Daily report</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<main class="container">
+    <h1>Daily report</h1>
+    <form action="/admin/reports/day" method="get">
+        <label for="date">Date</label>
+        <input id="date" name="date" type="date" th:value="${date}" required>
+        <button type="submit">Show</button>
+    </form>
+
+    <p class="message" th:if="${error}" th:text="${error}"></p>
+
+    <section th:if="${report}">
+        <h2 th:text="|Report for ${report.date}|">Report for date</h2>
+        <table>
+            <tbody>
+            <tr>
+                <th scope="row">Users who played</th>
+                <td th:text="${report.usersPlayed}">0</td>
+            </tr>
+            <tr>
+                <th scope="row">Correct guesses</th>
+                <td th:text="${report.correctGuesses}">0</td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <p class="page-link"><a href="/admin/home">Back to admin home</a></p>
+</main>
+</body>
+</html>
