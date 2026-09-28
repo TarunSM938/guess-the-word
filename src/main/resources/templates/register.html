@@ -3,16 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Create account | Guess the Word</title>
+    <title>Register</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-<main class="card">
-    <p class="eyebrow">GUESS THE WORD</p>
-    <h1>Create your account</h1>
-    <p class="subtitle">Join the game and start playing.</p>
+<main class="container">
+    <h1>Register</h1>
 
-    <div class="messages error" th:if="${errors}">
+    <div class="message" th:if="${errors}">
         <p th:each="message : ${errors}" th:text="${message}"></p>
     </div>
 
@@ -29,11 +27,11 @@
         <input id="confirmPassword" name="confirmPassword" type="password"
                autocomplete="new-password" required>
 
-        <p class="hint">Use at least 5 characters, including a letter, a number, and one of $ % *.</p>
+        <p class="hint">Use at least 5 characters with a letter, a number, and one of $ % *.</p>
         <button type="submit">Create account</button>
     </form>
 
-    <p class="footer-link">Already registered? <a href="/login">Log in</a></p>
+    <p class="page-link">Already registered? <a href="/login">Log in</a></p>
 </main>
 </body>
 </html>

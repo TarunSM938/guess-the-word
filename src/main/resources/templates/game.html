@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Your game</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<main class="container game-container">
+    <h1>Guess the Word</h1>
+    <p class="game-count" th:if="${gameState.status == 'IN_PROGRESS'}"
+       th:text="|${gameState.guessesRemaining} guesses left|">5 guesses left</p>
+    <p class="game-count" th:if="${gameState.status != 'IN_PROGRESS'}"
+       th:text="|${gameState.guesses.size()} guesses used|">5 guesses used</p>
+
+    <div class="game-grid" aria-label="Guess board">
+        <div class="row" th:each="guess : ${gameState.guesses}">
+            <span class="tile"
+                  th:each="position : ${#numbers.sequence(0, 4)}"
+                  th:with="resultLetter=${guess.resultPattern.substring(position, position + 1)}"
+                  th:classappend="${resultLetter == 'G' ? 'tile-green' : (resultLetter == 'Y' ? 'tile-orange' : 'tile-grey')}"
+                  th:text="${guess.guessWord.charAt(position)}">A</span>
+        </div>
+        <div class="row" th:if="${gameState.guesses.size() < 5}"
+             th:each="rowNumber : ${#numbers.sequence(gameState.guesses.size(), 4)}">
+            <span class="tile" th:each="position : ${#numbers.sequence(0, 4)}"></span>
+        </div>
+    </div>
+
+    <p class="message" th:if="${error}" th:text="${error}"></p>
+
+    <form class="guess-form" th:if="${gameState.status == 'IN_PROGRESS'}"
+          th:action="@{/player/game/{sessionId}/guess(sessionId=${gameState.sessionId})}"
+          method="post">
+        <label for="guess">Your guess</label>
+        <input id="guess" name="guess" type="text" maxlength="5" required
+               pattern="[A-Za-z]{5}" autofocus autocomplete="off">
+        <button type="submit">Submit</button>
+    </form>
+
+    <p class="page-link" th:if="${gameState.status == 'IN_PROGRESS'}">
+        <a href="/player/home">Back to home</a>
+    </p>
+
+    <div class="modal" th:if="${gameState.status == 'WON'}" role="dialog" aria-modal="true"
+         aria-labelledby="result-title">
+        <div class="modal-box">
+            <h2 id="result-title">You won!</h2>
+            <p>The word was <strong th:text="${gameState.answer}">CRANE</strong>.</p>
+            <a class="button" href="/player/home">OK</a>
+        </div>
+    </div>
+    <div class="modal" th:if="${gameState.status == 'LOST'}" role="dialog" aria-modal="true"
+         aria-labelledby="result-title">
+        <div class="modal-box">
+            <h2 id="result-title">Better luck next time</h2>
+            <p>The word was <strong th:text="${gameState.answer}">CRANE</strong>.</p>
+            <a class="button" href="/player/home">OK</a>
+        </div>
+    </div>
+</main>
+<script>
+    const guessInput = document.querySelector("#guess");
+    if (guessInput) {
+        guessInput.addEventListener("input", () => {
+            guessInput.value = guessInput.value.toUpperCase().replace(/[^A-Z]/g, "").slice(0, 5);
+        });
+    }
+</script>
+</body>
+</html>

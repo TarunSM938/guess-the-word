@@ -3,17 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Log in | Guess the Word</title>
+    <title>Log in</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-<main class="card">
-    <p class="eyebrow">GUESS THE WORD</p>
-    <h1>Welcome back</h1>
-    <p class="subtitle">Log in to continue playing.</p>
+<main class="container">
+    <h1>Log in</h1>
 
-    <p class="messages success" th:if="${registered}">Your account is ready. You can log in now.</p>
-    <p class="messages error" th:if="${error}" th:text="${error}"></p>
+    <p class="message" th:if="${registered}">Your account is ready. You can log in now.</p>
+    <p class="message" th:if="${error}" th:text="${error}"></p>
 
     <form action="/login" method="post">
         <label for="username">Username</label>
@@ -27,7 +25,7 @@
         <button type="submit">Log in</button>
     </form>
 
-    <p class="footer-link">New here? <a href="/register">Create an account</a></p>
+    <p class="page-link">New here? <a href="/register">Register</a></p>
 </main>
 </body>
 </html>

@@ -85,6 +85,33 @@ class GameServiceTest {
     }
 
     @Test
+    void getsExistingGameStateWithoutChangingIt() {
+        long userId = createUser();
+        GameState started = gameService.startOrResume(userId);
+        gameService.submitGuess(userId, started.sessionId(), "ZZZZZ");
+
+        GameState loaded = gameService.getState(userId, started.sessionId());
+
+        assertEquals(started.sessionId(), loaded.sessionId());
+        assertEquals("IN_PROGRESS", loaded.status());
+        assertEquals(4, loaded.guessesRemaining());
+        assertEquals(1, loaded.guesses().size());
+        assertNull(loaded.answer());
+        assertEquals(2, gameService.wordsRemainingToday(userId));
+    }
+
+    @Test
+    void cannotGetAnotherUsersGameState() {
+        long ownerId = createUser();
+        long otherUserId = createUser();
+        GameState game = gameService.startOrResume(ownerId);
+
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> gameService.getState(otherUserId, game.sessionId()));
+    }
+
+    @Test
     void correctGuessWinsAndRevealsAnswer() {
         long userId = createUser();
         GameState started = gameService.startOrResume(userId);

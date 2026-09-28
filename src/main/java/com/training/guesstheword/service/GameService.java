@@ -78,6 +78,16 @@ public class GameService {
         return buildState(updatedSession);
     }
 
+    @Transactional(readOnly = true)
+    public GameState getState(long userId, long sessionId) {
+        GameSession session = gameRepository.findSessionById(sessionId)
+                .orElseThrow(() -> new IllegalArgumentException("Game session does not exist."));
+        if (session.userId() != userId) {
+            throw new IllegalArgumentException("Game session does not belong to this user.");
+        }
+        return buildState(session);
+    }
+
     public int wordsRemainingToday(long userId) {
         int sessionsPlayed = gameRepository.countSessionsOn(userId, LocalDate.now().toString());
         return Math.max(0, GameConstants.MAX_WORDS_PER_DAY - sessionsPlayed);

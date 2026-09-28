@@ -3,17 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Player home | Guess the Word</title>
+    <title>Player home</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-<main class="card">
-    <p class="eyebrow">PLAYER HOME</p>
-    <h1>Welcome, <span th:text="${username}">player</span>!</h1>
-    <p class="subtitle">Your game will be ready here soon.</p>
-    <form action="/logout" method="post">
-        <button class="button-secondary" type="submit">Log out</button>
-    </form>
+<main class="container">
+    <h1>Guess the Word</h1>
+    <p>Player: <span th:text="${username}">player</span></p>
+    <p class="message" th:text="|Words remaining today: ${wordsRemaining}|">Words remaining today: 3</p>
+    <p class="message" th:if="${message}" th:text="${message}"></p>
+    <div class="actions">
+        <form action="/player/game/start" method="post">
+            <button type="submit">Play</button>
+        </form>
+        <form action="/logout" method="post">
+            <button type="submit">Log out</button>
+        </form>
+    </div>
 </main>
 </body>
 </html>
