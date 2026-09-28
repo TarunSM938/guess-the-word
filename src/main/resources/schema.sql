@@ -1,9 +1,4 @@
-DROP TABLE IF EXISTS guesses;
-DROP TABLE IF EXISTS game_sessions;
-DROP TABLE IF EXISTS words;
-DROP TABLE IF EXISTS users;
-
-CREATE TABLE users (
+CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     username TEXT NOT NULL UNIQUE,
     password TEXT NOT NULL,
@@ -11,12 +6,12 @@ CREATE TABLE users (
     created_at TEXT NOT NULL DEFAULT (datetime('now'))
 );
 
-CREATE TABLE words (
+CREATE TABLE IF NOT EXISTS words (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     word TEXT NOT NULL UNIQUE
 );
 
-CREATE TABLE game_sessions (
+CREATE TABLE IF NOT EXISTS game_sessions (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER NOT NULL,
     word_id INTEGER NOT NULL,
@@ -27,7 +22,7 @@ CREATE TABLE game_sessions (
     FOREIGN KEY (word_id) REFERENCES words(id)
 );
 
-CREATE TABLE guesses (
+CREATE TABLE IF NOT EXISTS guesses (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     session_id INTEGER NOT NULL,
     guess_word TEXT NOT NULL,
