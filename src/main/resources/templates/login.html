@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Log in | Guess the Word</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<main class="card">
+    <p class="eyebrow">GUESS THE WORD</p>
+    <h1>Welcome back</h1>
+    <p class="subtitle">Log in to continue playing.</p>
+
+    <p class="messages success" th:if="${registered}">Your account is ready. You can log in now.</p>
+    <p class="messages error" th:if="${error}" th:text="${error}"></p>
+
+    <form action="/login" method="post">
+        <label for="username">Username</label>
+        <input id="username" name="username" type="text" autocomplete="username"
+               th:value="${username}" required>
+
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password"
+               autocomplete="current-password" required>
+
+        <button type="submit">Log in</button>
+    </form>
+
+    <p class="footer-link">New here? <a href="/register">Create an account</a></p>
+</main>
+</body>
+</html>

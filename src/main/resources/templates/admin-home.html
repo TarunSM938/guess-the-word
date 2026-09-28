@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Admin home | Guess the Word</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<main class="card">
+    <p class="eyebrow">ADMIN HOME</p>
+    <h1>Welcome, <span th:text="${username}">admin</span>!</h1>
+    <p class="subtitle">Administration tools will be available here soon.</p>
+    <form action="/logout" method="post">
+        <button class="button-secondary" type="submit">Log out</button>
+    </form>
+</main>
+</body>
+</html>
